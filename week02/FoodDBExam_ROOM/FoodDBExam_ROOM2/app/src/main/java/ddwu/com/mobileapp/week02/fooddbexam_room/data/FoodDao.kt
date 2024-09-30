@@ -20,4 +20,6 @@ interface FoodDao {
     @Query("SELECT * FROM food_table")
     fun getAllFoods(): List<Food>
 
+    @Query("SELECT * FROM food_table WHERE country = :country")
+    fun showFoodByCountry(country : String): List<Food>
     }
