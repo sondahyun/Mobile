@@ -9,7 +9,7 @@ import androidx.room.Update
 @Dao
 interface FoodDao {
     @Insert
-    fun insertFood(vararg food: Food)
+    fun insertFood(vararg food: Food)  // insertFood(food1) of insertFood(food1, ...)
 
     @Update
     fun updateFood(food: Food) : Int

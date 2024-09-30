@@ -30,14 +30,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
+        
 
-        val db : FoodDatabase = Room.databaseBuilder(
-            applicationContext, FoodDatabase::class.java, "food_db"
-        ).build()
+        // db 사용할때마다 객체 생성
+//        val db : FoodDatabase = Room.databaseBuilder(
+//            applicationContext, FoodDatabase::class.java, "food_db"
+//        ).build()
 
+
+        // FoodDatabase 객체 하나만 만들어서 사용 : singleton pattern
+        val db : FoodDatabase = FoodDatabase.getDatabase(this)
+
+        // Dao 사용
         val foodDao : FoodDao = db.foodDao()
         
-        Thread { //별도의 스레드에서 작업, UI는 UI대로, DB는 DB대로 작업 가능
+        Thread { // 별도의 스레드에서 작업, UI는 UI대로, DB는 DB대로 작업 가능
             foodDao.insertFood(Food(0, "떡볶이", "한국" ))
             Log.d("MainActivity","떡볶이, 한국 insert")
         }.start()
