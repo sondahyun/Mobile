@@ -1,12 +1,14 @@
 package ddwu.com.mobileapp.week03.roomexam01
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ddwu.com.mobile.roomexam01.data.Food
+import ddwu.com.mobile.roomexam01.data.FoodDatabase
 import ddwu.com.mobileapp.week03.roomexam01.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class  MainActivity : AppCompatActivity() {
 
     val TAG = "MainActivity"
 
@@ -15,13 +17,13 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-//    val foodDabase by lazy {
-//        FoodDatabase.getDatabase(this)
-//    }
+    val foodDabase by lazy {
+        FoodDatabase.getDatabase(this) // 만들어져 있으면 사용, 없으면 생성하는 static fun
+    }
 
-//    val foodDao by lazy {
-//        foodDabase.foodDao()
-//    }
+    val foodDao by lazy {
+        foodDabase.foodDao()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +46,23 @@ class MainActivity : AppCompatActivity() {
 
 
         // get all foods
-
+        Thread {
+            val foods = foodDao.getAllFoods()
+            for (food in foods) {
+                Log.d(TAG, food.toString())
+            }
+        }.start()
 
 
         // food by country
         binding.btnShow.setOnClickListener {
-
+            val countryName = binding.etCountry.text.toString()
+            Thread {
+                val foods = foodDao.getFoodsByCountry(countryName)
+                for (food in foods) {
+                    Log.d(TAG, food.toString())
+                }
+            }.start()
 //            val foods =
 
 //            adapter.foods.clear()
@@ -64,7 +77,9 @@ class MainActivity : AppCompatActivity() {
             val foodName = binding.etFood.text.toString()
             val countryName = binding.etCountry.text.toString()
             val food = Food(0, foodName, countryName)   // new food
-
+            Thread {
+                foodDao.insertFood(food)
+            }.start()
         }
 
         // update food id 2
@@ -72,12 +87,17 @@ class MainActivity : AppCompatActivity() {
             val foodName = binding.etFood.text.toString()
             val countryName = binding.etCountry.text.toString()
             val targetFood = Food(2, foodName, countryName)
-
+            Thread {
+                foodDao.updateFood(targetFood)
+            }.start()
         }
 
         // update food id 3
         binding.btnDelete.setOnClickListener {
             val targetFood = Food(3, "", "")    // delete food _id 3
+            Thread {
+                foodDao.deleteFood(targetFood)
+            }.start()
         }
 
 

@@ -7,7 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 
 @Dao
-interface FoodDao {
+interface FoodDao { // Dao는 interface임 (필요하다고만 정의)
 
     @Query("SELECT * FROM food_table")
     fun getAllFoods(): List<Food>

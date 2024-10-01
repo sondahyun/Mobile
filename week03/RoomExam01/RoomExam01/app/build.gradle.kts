@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ddwu.com.mobileapp.week03.roomexam01"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ddwu.com.mobileapp.week03.roomexam01"

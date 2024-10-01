@@ -1,12 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-//    id("com.google.devtools.ksp") version "1.9.0-1.0.13" // 최신 버전을 사용
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13" // 최신 버전을 사용
 }
 
 android {
     namespace = "ddwu.com.mobileapp.week02.roomexam01"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ddwu.com.mobileapp.week02.roomexam01"
@@ -51,12 +51,12 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // ROOM 관련
-//    val room_version = "2.6.1"
-//    implementation("androidx.room:room-runtime:$room_version")
-//    annotationProcessor("androidx.room:room-compiler:$room_version")
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
 //    // To use Kotlin annotation processing tool (kapt)
 //    kapt("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
-//    ksp("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 }
