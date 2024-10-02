@@ -60,6 +60,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
 
     // optional - Kotlin Extensions and Coroutines support for Room
+    // coroutine 사용
     implementation("androidx.room:room-ktx:$room_version")
 
     // Lifecycle components
