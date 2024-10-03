@@ -14,11 +14,19 @@ interface FoodDao {
     // suspend: coroutine에서 사용 가능한 함수
     // suspend: 한번만 실행 (함수를 잠깐 멈춰도 됨)(실행 도중 중단 가능)
 
-    @Update // Update와 Delete는 pk기준으로 작업
-    suspend fun updateFood(food: Food)
+//    @Update // Update와 Delete는 pk기준으로 작업
+//    suspend fun updateFood(food: Food)
+//
+//    @Delete
+//    suspend fun deleteFood(food: Food)
+    @Query("UPDATE food_table SET country = :country WHERE food = :food")
+    suspend fun updateFood(food: String, country: String)
+
+    @Query("DELETE FROM food_table WHERE food = :food")
+    suspend fun deleteFood(food: String)
 
     @Delete
-    suspend fun deleteFood(food: Food)
+    suspend fun deleteAll(food: Food)
 
     @Query("SELECT * FROM food_table")
     fun getAllFoods() : Flow<List<Food>>

@@ -56,12 +56,15 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
+
     // To use Kotlin Symbol Processing (KSP)
     ksp("androidx.room:room-compiler:$room_version")
+
 
     // optional - Kotlin Extensions and Coroutines support for Room
     // coroutine 사용
     implementation("androidx.room:room-ktx:$room_version")
+
 
     // Lifecycle components
     val lifecycle_version = "2.8.5"

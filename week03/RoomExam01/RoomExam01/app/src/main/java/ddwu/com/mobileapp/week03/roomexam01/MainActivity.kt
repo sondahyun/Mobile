@@ -21,13 +21,23 @@ class  MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    val foodDabase by lazy {
-        FoodDatabase.getDatabase(this) // 만들어져 있으면 사용, 없으면 생성하는 static fun
+    
+    // 모든 activity에서 접근할 수 있도록 application 객체에 생성
+//    val foodDabase by lazy {
+//        FoodDatabase.getDatabase(this) // 만들어져 있으면 사용, 없으면 생성하는 static fun
+//    }
+//
+//    val foodDao by lazy {
+//        foodDabase.foodDao()
+//    }
+
+
+    // foodRepo 이용 (안에 FoodDatabase, FoodDao 정의 (FoodRepository) 돼있음)
+    // foodDao 직접 접근 X, Repo통해서 접근
+    val foodRepo by lazy {
+        (application as FoodApplication).foodRepo
     }
 
-    val foodDao by lazy {
-        foodDabase.foodDao()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +70,16 @@ class  MainActivity : AppCompatActivity() {
 
 
         // coroutine 사용
-        val foodFlow : Flow<List<Food>> = foodDao.getAllFoods()
-        CoroutineScope(Dispatchers.IO).launch { // Coroutine을 실행할때는 scope지정해서 실행
+        val foodFlow : Flow<List<Food>> = foodRepo.allFoods
+        CoroutineScope(Dispatchers.Main).launch { // Coroutine을 실행할때는 scope지정해서 실행
             // List<Food>의 변경을 지속적으로 관찰하는 Flow 지정
             // collect()를 사용하여 Flow의 변경을 수집하여 확인 : List<Food>를 매개변수로 받음
             foodFlow.collect { foods ->
 //                for (food in foods) {
 //                    Log.d(TAG, food.toString())
 //                }
+
+                // recycle view에 나타냄
                 adapter.foods.clear()
                 adapter.foods.addAll(foods)
                 adapter.notifyDataSetChanged()
@@ -88,7 +100,7 @@ class  MainActivity : AppCompatActivity() {
 
             // Coroutine 이용
             CoroutineScope(Dispatchers.IO).launch {
-                val foods = foodDao.getFoodsByCountry(countryName)
+                val foods = foodRepo.showFoodByCountry(countryName)
                 for (food in foods) {
                     Log.d(TAG, food.toString())
                 }
@@ -117,7 +129,7 @@ class  MainActivity : AppCompatActivity() {
 
             //Coroutine 이용
             CoroutineScope(Dispatchers.IO).launch {
-                foodDao.insertFood(food)
+                foodRepo.addFood(food)
             }
 
         }
@@ -126,7 +138,7 @@ class  MainActivity : AppCompatActivity() {
         binding.btnUpdate.setOnClickListener {
             val foodName = binding.etFood.text.toString()
             val countryName = binding.etCountry.text.toString()
-            val targetFood = Food(2, foodName, countryName)
+            // val targetFood = Food(2, foodName, countryName)
             
 //            // Thread 이용
 //            Thread {
@@ -135,13 +147,14 @@ class  MainActivity : AppCompatActivity() {
 
             // Coroutine 이용
             CoroutineScope(Dispatchers.IO).launch {
-                foodDao.updateFood(targetFood)
+                foodRepo.modifyFood(foodName, countryName)
             }
         }
 
         // update food id 3
         binding.btnDelete.setOnClickListener {
-            val targetFood = Food(3, "", "")    // delete food _id 3
+            val foodName = binding.etFood.text.toString()
+            // val targetFood = Food(3, foodName, "")    // delete food _id 3
 
 //            // Thread 이용
 //            Thread {
@@ -150,7 +163,7 @@ class  MainActivity : AppCompatActivity() {
 
             // Coroutine 이용
             CoroutineScope(Dispatchers.IO).launch {
-                foodDao.deleteFood(targetFood)
+                foodRepo.removeFood(foodName)
             }
 
         }
