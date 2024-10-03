@@ -25,10 +25,10 @@ interface FoodDao {
     fun deleteFoodByName(foodName: String)
 
     @Query("SELECT * FROM food_table")
-    fun getAllFoods() : Flow<List<Food>>
+    fun getAllFoods() : Flow<List<Food>> // 지속적 관찰
 
     @Query("SELECT * FROM food_table WHERE country = :country")
-    suspend fun getFoodsByCountry(country: String) : List<Food>
+    suspend fun getFoodsByCountry(country: String) : List<Food> // 데이터 가져옴
 
     @Query("SELECT food FROM food_table WHERE country = :country")
     suspend fun getFoodByCountry(country: String) : String
