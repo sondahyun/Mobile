@@ -31,7 +31,7 @@ class FoodRepository(private val foodDao: FoodDao) {
         foodDao.updateFoodCountryByName(food.foodName!!, food.country!!)
     }
 
-    suspend fun removeFoodByName(food: Food) {
-        foodDao.deleteFoodByName(food.foodName!!)
+    suspend fun removeFoodByName(foodName: String) {
+        foodDao.deleteFoodByName(foodName)
     }
 }

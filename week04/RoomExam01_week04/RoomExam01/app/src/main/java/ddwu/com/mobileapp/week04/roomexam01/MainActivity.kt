@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         // viewModel에서 allFoods호출 -> LiveData type
         // Flow->collect, LiveData->Observer(관찰)
         // allFoods가 화면이 보일때만 관찰함 (Flow는 계속 데이터 변경 관찰)
-        foodViewModel.allFoods.observe( this, Observer { foods -> //Livedata
+        foodViewModel.allFoods.observe( this, Observer { foods -> //Livedata type
             adapter.foods = foods // adapter에 연결
             adapter.notifyDataSetChanged() // 화면 데이터 값 변경됐다고 알림
             Log.d(TAG, "Observing!!!")
@@ -125,21 +125,26 @@ class MainActivity : AppCompatActivity() {
             val countryName = binding.etCountry.text.toString()
             val food = Food(0, foodName, countryName)
 
-            CoroutineScope(Dispatchers.IO).launch {
-//                foodRepo.modifyFood(food)
-                foodRepo.modifyFoodCountryByFood(food)
-            }
+//            // Repo 직접 사용
+//            CoroutineScope(Dispatchers.IO).launch {
+//                foodRepo.modifyFoodCountryByFood(food)
+//            }
 
+            // ViewModel 사용해서 Repo접근
+            foodViewModel.modifycountryByName(food)
         }
 
         // delete food
         binding.btnDelete.setOnClickListener {
             val foodName = binding.etFood.text.toString()
             val food = Food(0, foodName, "")
-            CoroutineScope(Dispatchers.IO).launch {
-//                foodRepo.removeFood(food)
-                foodRepo.removeFoodByName(food)       // 음식 이름으로 삭제
-            }
+//            // Repo 직접 사용
+//            CoroutineScope(Dispatchers.IO).launch {
+//                foodRepo.removeFoodByName(food)       // 음식 이름으로 삭제
+//            }
+
+            // ViewModel 사용해서 Repo접근
+            foodViewModel.removeFoodByName(foodName)
         }
 
     }

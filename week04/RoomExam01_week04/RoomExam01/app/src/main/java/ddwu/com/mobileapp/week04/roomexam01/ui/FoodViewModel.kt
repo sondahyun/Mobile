@@ -19,8 +19,18 @@ class FoodViewModel (val foodRepo: FoodRepository) : ViewModel() { // viewModel 
     var allFoods  : LiveData<List<Food>> = foodRepo.allFoods.asLiveData()
 
     // CoroutineScope(DISPATCHER.ID).launch대신에 ViewModel은 viewModelScope사용
-    fun addFood(food: Food) = viewModelScope.launch { 
+    fun addFood(food: Food) = viewModelScope.launch {
         foodRepo.addFood(food)
+    }
+
+    // CoroutineScope(DISPATCHER.ID).launch대신에 ViewModel은 viewModelScope사용
+    fun removeFoodByName(foodName: String) = viewModelScope.launch {
+        foodRepo.removeFoodByName(foodName)
+    }
+
+    // CoroutineScope(DISPATCHER.ID).launch대신에 ViewModel은 viewModelScope사용
+    fun modifycountryByName(food: Food) = viewModelScope.launch {
+        foodRepo.modifyFoodCountryByFood(food)
     }
 
     fun findFoodByCountry(country: String) : Deferred<String> {
