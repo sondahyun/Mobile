@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-//    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
 
 android {
@@ -52,15 +52,17 @@ dependencies {
 
     // ROOM
     val room_version = "2.6.1"
-//    implementation("androidx.room:room-runtime:$room_version")
-//    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
-//    ksp("androidx.room:room-compiler:$room_version")    // optional - Kotlin Extensions and Coroutines support for Room
-//    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
 
     // Lifecycle components
-//    val lifecycle_version = "2.8.5"
-//    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-//    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-//    implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+    // ViewModel
+    val lifecycle_version = "2.8.5"
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation ("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 }

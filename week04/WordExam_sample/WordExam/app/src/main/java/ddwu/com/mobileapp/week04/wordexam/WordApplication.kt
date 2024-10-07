@@ -1,7 +1,7 @@
 package ddwu.com.mobileapp.week04.wordexam
 
 import android.app.Application
-import ddwu.com.mobileapp.week04.wordexam.ui.WordDatabase
+import ddwu.com.mobileapp.week04.wordexam.data.WordDatabase
 
 class WordApplication: Application() {
     val wordDatabase by lazy {

@@ -1,4 +1,4 @@
-package ddwu.com.mobileapp.week04.wordexam.ui
+package ddwu.com.mobileapp.week04.wordexam.data
 
 import android.view.LayoutInflater
 import android.view.View

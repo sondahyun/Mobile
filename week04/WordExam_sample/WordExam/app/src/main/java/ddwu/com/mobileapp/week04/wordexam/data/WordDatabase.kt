@@ -1,4 +1,4 @@
-package ddwu.com.mobileapp.week04.wordexam.ui
+package ddwu.com.mobileapp.week04.wordexam.data
 
 import android.content.Context
 import androidx.room.Database
@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
 abstract class WordDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
 
-    companion object {
+    companion object { // singleton
         @Volatile
         private var INSTANCE: WordDatabase?= null
 

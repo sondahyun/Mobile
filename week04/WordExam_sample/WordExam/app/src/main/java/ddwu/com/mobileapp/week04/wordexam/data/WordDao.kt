@@ -1,4 +1,4 @@
-package ddwu.com.mobileapp.week04.wordexam.ui
+package ddwu.com.mobileapp.week04.wordexam.data
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -7,19 +7,19 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-
+@Dao
 interface WordDao {
+    @Insert
+    suspend fun insertWord(word: Word)
 
-    fun insertWord(word: Word)
-
-    fun deleteWord(word: Word)
-
-    fun updateWord(word: Word)
+    @Query("DELETE FROM word_table WHERE word = :word")
+    suspend fun deleteWord(word: String)
 
     // 조건 없이 전체 단어를 검색하여 Word 엔티티 반환
+    @Query("SELECT * FROM word_table")
     fun showAllWords() : Flow<List<Word>>
 
-
     // 단어(word)를 입력하여 의미(meaning) 반환
-    fun getWordMeaning(word: String) : String
+    @Query("SELECT meaning FROM word_table WHERE word = :word")
+    suspend fun getWordMeaning(word: String) : String
 }
