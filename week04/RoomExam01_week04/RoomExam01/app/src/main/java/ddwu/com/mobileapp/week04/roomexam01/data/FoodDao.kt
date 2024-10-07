@@ -19,10 +19,10 @@ interface FoodDao {
     suspend fun deleteFood(food: Food)
 
     @Query("UPDATE food_table SET country = :country WHERE food = :newName")
-    fun updateFoodCountryByName(newName : String, country: String)
+    suspend fun updateFoodCountryByName(newName : String, country: String)
 
     @Query("DELETE FROM food_table WHERE food = :foodName")
-    fun deleteFoodByName(foodName: String)
+    suspend fun deleteFoodByName(foodName: String)
 
     @Query("SELECT * FROM food_table")
     fun getAllFoods() : Flow<List<Food>> // 지속적 관찰
