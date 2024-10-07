@@ -35,9 +35,10 @@ class FoodViewModel (val foodRepo: FoodRepository) : ViewModel() { // viewModel 
 
     fun findFoodByCountry(country: String) : Deferred<String> {
         // CoroutineScope를 viewModelScope로 지정
-        val deferredFood = viewModelScope.async {
+        // 반환값있을때 -> async사용 ==> deffered타입 이용
+        val deferredFood = viewModelScope.async { 
             foodRepo.getFoodByCountry(country)
         }
-        return deferredFood
+        return deferredFood // 반환 -> mainactivity의 CoroutineScope안에 있는 await이 받음
     }
 }

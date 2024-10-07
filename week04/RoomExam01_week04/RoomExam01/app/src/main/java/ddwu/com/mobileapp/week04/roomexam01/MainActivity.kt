@@ -87,11 +87,19 @@ class MainActivity : AppCompatActivity() {
         binding.btnShow.setOnClickListener {
             val country = binding.etCountry.text.toString()
 
+            // return 값 받아야 함
+            // Main에서 실행을 시켜야함 (UI)
             CoroutineScope(Dispatchers.Main).launch {
                 // Dispatchers.Main: coroutine내에서 화면 요소에 접근하려면 메인 쓰레드안에서 coroutine이 동작해야함
                 val deffFood = foodViewModel.findFoodByCountry(country)
-                val foodName = deffFood.await() // await 사용하려면 coroutine내에서 사용해야함
-                Log.d(TAG, foodName)
+
+                // deffered타입 return 기다릴때는 await사용
+                val foods = deffFood.await() // await 사용하려면 coroutine내에서 사용해야함
+                
+                // 결과값 출력
+                for (food in foods) {
+                    Log.d(TAG, food.toString())
+                }
             }
 
 //            CoroutineScope(Dispatchers.IO).launch {
