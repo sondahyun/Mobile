@@ -2,12 +2,11 @@
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ddwu.com.mobileapp.week04.wordexam.databinding.ActivityMainBinding
 import ddwu.com.mobileapp.week04.wordexam.data.Word
-import ddwu.com.mobileapp.week04.wordexam.data.WordAdapter
-import ddwu.com.mobileapp.week04.wordexam.data.WordDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +48,8 @@ import kotlinx.coroutines.launch
         adapter.setOnWordClickListener(object: WordAdapter.OnWordClickListener {
             override fun onWordClick(view: View, pos: Int) {
                 // 5. rvWords 에서 클릭한 단어로 wordDao를 사용하여  DB에서 의미 검색 후 의미 칸에 표시
+                Toast.makeText(this@MainActivity, "$(adapter.words[pos])", Toast.LENGTH_SHORT).show()
+                var meaning: String = wordDao.getWordMeaning("$(adapter.words[pos]")
 
             }
         })
