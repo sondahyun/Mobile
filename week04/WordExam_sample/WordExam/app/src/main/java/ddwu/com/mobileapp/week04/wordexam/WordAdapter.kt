@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ddwu.com.mobileapp.week04.wordexam.data.Word
 import ddwu.com.mobileapp.week04.wordexam.databinding.ListWordBinding
 
-class WordAdapter(var words: ArrayList<Word>) : RecyclerView.Adapter<WordAdapter.WordViewHolder> () {
+class WordAdapter(var words: List<Word>) : RecyclerView.Adapter<WordAdapter.WordViewHolder> () {
 
     // RecyclerView가 얼마나 많은 아이템을 표시해야 하는지 알려주는 함수
     override fun getItemCount(): Int = words.size

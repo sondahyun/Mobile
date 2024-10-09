@@ -15,6 +15,9 @@ interface WordDao {
     @Query("DELETE FROM word_table WHERE word = :word")
     suspend fun deleteWord(word: String)
 
+    @Query("UPDATE word_table SET meaning = :meaning WHERE word = :word")
+    suspend fun updateWord(word: String, meaning: String)
+
     // 조건 없이 전체 단어를 검색하여 Word 엔티티 반환
     @Query("SELECT * FROM word_table")
     fun showAllWords() : Flow<List<Word>>
