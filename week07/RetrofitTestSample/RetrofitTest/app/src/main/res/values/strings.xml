@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RetrofitTest</string>
+    <string name= "kobis_url">  </string>
+    <string name="key"></string>
+</resources>
