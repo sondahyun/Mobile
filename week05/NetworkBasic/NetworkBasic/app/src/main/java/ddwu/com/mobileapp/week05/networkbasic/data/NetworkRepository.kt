@@ -33,5 +33,7 @@ class NetworkRepository(private val netService: NetworkService) {
     // 함수명: getNetworkPost
     // 매개변수: address: String
     // 반환값: Bitmap
-
+    suspend fun getNetworkPost(address: String, data: String) : String { // null도 가능
+        return netService.getPostData(address, data) ?: "no data"
+    }
 }

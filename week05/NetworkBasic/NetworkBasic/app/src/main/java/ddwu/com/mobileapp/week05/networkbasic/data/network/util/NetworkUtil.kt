@@ -81,7 +81,7 @@ class NetworkUtil(val context: Context) {
             // 변환한 String 을 receivedContents 에 저장
             resultStream = conn?.inputStream
             receivedContents = streamUtil.readStreamToString(resultStream)
-            
+
         } catch (e: Exception) {        // MalformedURLException, IOExceptionl, SocketTimeoutException 등 처리 필요
             e.printStackTrace()
         } finally {

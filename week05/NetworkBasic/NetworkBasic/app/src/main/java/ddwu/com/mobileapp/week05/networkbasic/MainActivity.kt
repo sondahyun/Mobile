@@ -67,6 +67,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSend.setOnClickListener {
             // post 요청 - resources.getString(R.string.server_url) 사용
+            var data = binding.etData.text.toString()
+            var address: String = resources.getString(R.string.server_url)
+
+            netViewModel.setNetworkText(address, data)
+
         }
 
     }

@@ -47,6 +47,14 @@ class NetworkViewModel (val networkRepo: NetworkRepository) : ViewModel() {
 
 
     // POST 요청 구현
-
+    fun setNetworkText(address: String, data: String) = viewModelScope.launch {
+        var result: String
+        withContext(Dispatchers.IO) {
+            // 결과 데이터 가져옴
+            result = networkRepo.getNetworkPost(address, data)
+        }
+        // 화면에 있는 Text가 갱신
+        _textResult.value = result
+    }
 
 }
