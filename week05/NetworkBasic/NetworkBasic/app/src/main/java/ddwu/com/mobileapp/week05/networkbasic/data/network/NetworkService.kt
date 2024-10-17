@@ -36,5 +36,7 @@ class NetworkService(context: Context) {
     // 함수명 : getPostData
     // 매개변수: address: String, data: String
     // 반환타입: String
-
+    suspend fun getPostData(address: String, data: String) : String? {
+        return networkUtil.sendPostData("POST", address, data)
+    }
 }

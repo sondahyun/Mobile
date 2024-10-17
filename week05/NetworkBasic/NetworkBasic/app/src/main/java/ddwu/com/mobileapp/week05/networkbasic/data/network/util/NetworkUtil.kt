@@ -77,7 +77,11 @@ class NetworkUtil(val context: Context) {
 
         try {
             // getConnection() 사용하여 Connection 을 post 방식으로 data 를 전달하며 요청하여 결과 inputStream 을 String으로 변환
+            conn = getConnection(requestMethod, address, data)
             // 변환한 String 을 receivedContents 에 저장
+            resultStream = conn?.inputStream
+            receivedContents = streamUtil.readStreamToString(resultStream)
+            
         } catch (e: Exception) {        // MalformedURLException, IOExceptionl, SocketTimeoutException 등 처리 필요
             e.printStackTrace()
         } finally {
@@ -103,7 +107,8 @@ class NetworkUtil(val context: Context) {
         if (requestMethod.equals("POST")) {
             // doOutput: 서버에 데이터를 보냄
             conn.doOutput = true
-            // 필요한 정보들을 웹페이지 form처럼 삽입
+
+            // 필요한 정보들을 웹페이지 form처럼 삽입 (key value 쌍)
             conn.setRequestProperty("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
             // Key Value 형태로 만듦
             val params = "subject=" + data
@@ -119,6 +124,7 @@ class NetworkUtil(val context: Context) {
             // writer.write(param2)
 
             // Stream으로 완성
+            // conn.outputStream에 data 들어감
             writer.flush()
         }
 
