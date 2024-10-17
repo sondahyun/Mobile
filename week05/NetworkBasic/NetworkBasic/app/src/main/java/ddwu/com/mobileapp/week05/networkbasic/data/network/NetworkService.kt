@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import ddwu.com.mobileapp.week05.networkbasic.data.network.util.NetworkUtil
 
+// Dao와 비슷한 역할
 class NetworkService(context: Context) {
 
     val TAG = "NetworkService"
@@ -18,6 +19,7 @@ class NetworkService(context: Context) {
         return networkUtil.isOnline()
     }
 
+    // 결과 데이터 불러옴
     suspend fun getTextData(address: String) : String {
         return networkUtil.downloadText(address) ?: "no data"
     }
@@ -26,7 +28,9 @@ class NetworkService(context: Context) {
     // 함수명 : getImageData
     // 매개변수 : address: String
     // 반환타입: Bitmap?
-
+    suspend fun getImageData(address: String) : Bitmap? {
+        return networkUtil.downloadImage(address)
+    }
 
     // networkUtil 의 post 요청 함수 호출
     // 함수명 : getPostData

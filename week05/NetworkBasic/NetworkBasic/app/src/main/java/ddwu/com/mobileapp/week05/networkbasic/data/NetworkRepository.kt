@@ -24,7 +24,9 @@ class NetworkRepository(private val netService: NetworkService) {
     // 함수명: getNetworkImage
     // 매개변수: address: String
     // 반환값: Bitmap
-
+    suspend fun getNetworkImage(address: String) : Bitmap? { // null도 가능
+        return netService.getImageData(address)
+    }
 
 
     // NetworkService 의 post 요청 함수 호출

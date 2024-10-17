@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         // ViewModel 을 사용하여 텍스트 결과를 지속 관찰하여 화면에 반영
         netViewModel.textData.observe(this) { resultText ->
-            binding.tvDisplay.setText(resultText)
+            binding.tvDisplay.setText(resultText) // 값 변경 반영
         }
 
 
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnImg.setOnClickListener {
             // 이미지 요청  resources.getString(R.string.image_url) 사용
+            netViewModel.getNetworkImage(resources.getString(R.string.image_url))
         }
 
         binding.btnSend.setOnClickListener {
