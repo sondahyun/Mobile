@@ -54,6 +54,7 @@ class NetworkUtil(val context: Context) {
      * @return InputStream? Server 요청결과
      */
     @Throws(IOException::class, SocketTimeoutException::class)
+    // getInputStream과 동일
     fun sendRequest(requestMethod: String, address: String, data: Map<String, String>?) : InputStream? {
 
         var url : URL =  if (requestMethod == "GET") {
@@ -62,7 +63,9 @@ class NetworkUtil(val context: Context) {
             URL(address)
         }
 
-        return (url.openConnection() as? HttpsURLConnection)?.apply {   // apply를 사용하여 connection객체. 생략
+        // apply: 범위함수
+        return (url.openConnection() as? HttpsURLConnection)?.apply{   // apply를 사용하여 connection객체. 생략
+            // connetion.readTimeout
             readTimeout = 5000
             connectTimeout = 5000
             doInput = true

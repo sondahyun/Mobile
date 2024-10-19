@@ -15,6 +15,13 @@ class MovieParser {
 //        val UPPER_TAG =
 //        val ITEM_TAG =
 //        ...
+        var FAULT_RESULT = "faultResult"
+        val UPPER_TAG = "dailyBoxOfficeList"
+        val ITEM_TAG = "dailyBoxOffice"
+        val RANK_TAG = "rank"
+        val TITLE_TAG = "movieNm"
+        val OPEN_DATE_TAG = "openDt"
+
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -30,7 +37,7 @@ class MovieParser {
             parser.setInput(inputStream, null)
 
             /*Parsing 대상 태그의 상위 태그까지 이동*/
-            while (parser.name != /*상위태그*/) {
+            while (parser.name != UPPER_TAG) {
                 parser.next()
             }
 
@@ -42,13 +49,14 @@ class MovieParser {
     private fun readBoxOffice(parser: XmlPullParser) : List<Movie> {
         val movies = mutableListOf<Movie>()
 
-        parser.require(XmlPullParser.START_TAG, ns,  /*상위태그*/)
+        // UPPER_TAG가 맞는지 확인
+        parser.require(XmlPullParser.START_TAG, ns,  UPPER_TAG)
         while(parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
-            if (parser.name == /*항목태그*/) {
-                movies.add( readDailyBoxOffice(parser) )
+            if (parser.name == ITEM_TAG) {
+                movies.add( readDailyBoxOffice(parser) ) // 내부 읽음 -> 목록에 추가
             } else {
                 skip(parser)
             }
@@ -60,9 +68,12 @@ class MovieParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readDailyBoxOffice(parser: XmlPullParser) : Movie {
-        parser.require(XmlPullParser.START_TAG, ns, /*항목태그*/)
+        parser.require(XmlPullParser.START_TAG, ns, ITEM_TAG)
 
         /*Parsing 한 TEXT 값을 저장할 변수 선언*/
+        var rank: Int? = null
+        var title: String? = null
+        var openData: String? = null
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
@@ -71,6 +82,9 @@ class MovieParser {
             when (parser.name) {
 
                 /*TAG 명에 따라 변수에 TEXT 저장*/
+                RANK_TAG -> rank = readTextInTag(parser, RANK_TAG).toInt()
+                TITLE_TAG -> title = readTextInTag(parser, TITLE_TAG)
+                OPEN_DATE_TAG -> openData = readTextInTag(parser, OPEN_DATE_TAG)
 
                 else -> skip(parser)
             }
@@ -81,12 +95,14 @@ class MovieParser {
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readTextInTag (parser: XmlPullParser, tag: String): String {
+        // XML 문제 있는지 확인
         parser.require(XmlPullParser.START_TAG, ns, tag)
         var text = ""
         if (parser.next() == XmlPullParser.TEXT) {
-            text = parser.text
+            text = parser.text // TEXT 확인
             parser.nextTag()
         }
+        // XML 문제 있는지 확인
         parser.require(XmlPullParser.END_TAG, ns, tag)
         return text
     }
