@@ -69,8 +69,9 @@ class NetworkUtil(val context: Context) {
 
 
             /*Naver 인증 정보를 추가*/
-            addRequestProperty("X-Naver-Client-Id", /*값입력*/ context.resources.getString(R.string.client_id))
-            addRequestProperty("X-Naver-Client-Secret", /*값입력*/ context.resources.getString(R.string.client_secret))
+            // 당사자인지 아닌지 확인 (정보가 주소에 나타나지 않아서 안전)
+            addRequestProperty("X-Naver-Client-Id", context.resources.getString(R.string.client_id))
+            addRequestProperty("X-Naver-Client-Secret", context.resources.getString(R.string.client_secret))
 
 
             // POST 방식일 경우 doOutput 지정 및 property 추가

@@ -74,7 +74,7 @@ class  MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch { // Coroutine을 실행할때는 scope지정해서 실행
             // List<Food>의 변경을 지속적으로 관찰하는 Flow 지정
             // collect()를 사용하여 Flow의 변경을 수집하여 확인 : List<Food>를 매개변수로 받음
-            foodFlow.collect { foods ->
+            foodFlow.collect { foods -> // foods는 List<Food>를 의미
 //                for (food in foods) {
 //                    Log.d(TAG, food.toString())
 //                }

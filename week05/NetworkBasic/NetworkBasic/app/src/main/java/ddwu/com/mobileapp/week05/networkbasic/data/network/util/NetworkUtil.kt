@@ -96,11 +96,13 @@ class NetworkUtil(val context: Context) {
     // data: POST에서 사용
     @Throws(IOException::class, SocketTimeoutException::class)
     private fun getConnection(requestMethod: String, address: String, data: String?) : HttpsURLConnection? {
-        val url = URL(address) // 주소
+        val url = URL(address) // 주소를 url 객체로 만듦
+        // URLConnection abtract 클래스 이용
         var conn = url.openConnection() as HttpsURLConnection
 
         conn.readTimeout = 5000                                 // 읽기 타임아웃 지정 - SocketTimeoutException
-        conn.connectTimeout = 5000                              // 연결 타임아웃 지정 - SocketTimeoutException
+        conn.connectTimeout = 5000  // 연결 타임아웃 지정 - SocketTimeoutException
+        // 서버의 응답을 받겠다
         conn.doInput = true                                     // 서버 응답 지정 – default
         conn.requestMethod = requestMethod                      // 연결 방식 지정 - or POST
 
@@ -131,12 +133,13 @@ class NetworkUtil(val context: Context) {
         // conn.connect()  // 명시적
         // 통신 링크 열기 – 트래픽 발생
         val responseCode = conn.responseCode
-        if (responseCode != HttpURLConnection.HTTP_OK) {        // 서버 전송 및 응답 결과 수신
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            // 서버 전송 및 응답 결과 수신
             throw IOException("Http Error Code: $responseCode")
             return null
         }
 
-        return conn // connection 객체 (받아올 정보)ㄴ
+        return conn // connection 객체 (받아올 정보)
     }
 
 

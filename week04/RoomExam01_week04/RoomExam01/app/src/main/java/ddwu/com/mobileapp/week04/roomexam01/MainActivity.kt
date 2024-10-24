@@ -12,6 +12,7 @@ import ddwu.com.mobileapp.week04.roomexam01.ui.FoodViewModel
 import ddwu.com.mobileapp.week04.roomexam01.ui.FoodViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -101,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, food.toString())
                 }
             }
+
 
 //            CoroutineScope(Dispatchers.IO).launch {
 //                val foods = foodRepo.getFoodByCountry(country)

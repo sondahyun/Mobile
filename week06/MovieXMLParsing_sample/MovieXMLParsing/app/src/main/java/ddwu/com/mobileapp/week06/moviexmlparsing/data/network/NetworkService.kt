@@ -15,11 +15,13 @@ class NetworkService(private val context: Context) {
         val address : String = context.resources.getString(R.string.movie_url)
 
         /*HashMap 을 사용하여 key 와 targetDt 저장*/
+        // key와 value값 구성
         val params = HashMap<String, String>()
         params["key"] = context.resources.getString(R.string.movie_key)
-        params["targetDt"] = date
+        params["targetDt"] = date // 전달 받은 data 값
 
         val resultStream: InputStream? = try {
+            // getInputStream과 같은 함수
             NetworkUtil(context).sendRequest(NetworkUtil.GET, address, params)
         } catch (e: Exception) {
             e.printStackTrace()

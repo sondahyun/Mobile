@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 @Entity (tableName = "food_table") // table 생성
 data class Food(
     @PrimaryKey(autoGenerate = true)
-    val _id: Int,
+    val _id: Int, // 멤버 변수
     val food: String,
     val country: String
 )
+
+
