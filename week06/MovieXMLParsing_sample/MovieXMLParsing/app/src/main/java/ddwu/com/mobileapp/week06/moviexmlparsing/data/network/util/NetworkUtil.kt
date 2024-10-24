@@ -58,12 +58,15 @@ class NetworkUtil(val context: Context) {
     fun sendRequest(requestMethod: String, address: String, data: Map<String, String>?) : InputStream? {
 
         var url : URL =  if (requestMethod == "GET") {
+            // address에 parameter값 (key, date) 붙임
+            // URL 객체 만듦
             URL(addGetParams(address, data))        // GET 방식일 경우 address 에 parameters 추가
         } else {
             URL(address)
         }
 
         // apply: 범위함수
+        // URLConnection 클래스 이용
         return (url.openConnection() as? HttpsURLConnection)?.apply{   // apply를 사용하여 connection객체. 생략
             // connetion.readTimeout
             readTimeout = 5000
@@ -95,7 +98,7 @@ class NetworkUtil(val context: Context) {
             if (responseCode != HttpURLConnection.HTTP_OK) {        // 서버 전송 및 응답 결과 수신
                 throw IOException("Http Error Code: $responseCode")
             }
-        }?.inputStream
+        }?.inputStream // 반환값 (inputStream)
 
     }
 

@@ -58,7 +58,8 @@ class MovieParser {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
-            if (parser.name == ITEM_TAG) {
+            if (parser.name == ITEM_TAG) {ㄴ
+                // DTO 저장
                 movies.add( readDailyBoxOffice(parser) ) // 내부 읽음 -> 목록에 추가
             } else {
                 skip(parser)
