@@ -10,8 +10,8 @@ class NVRepository(private val nvService: NVService) {
         return nvService.getBooks(query)
     }
 
-    suspend fun getImage(url: String?) : Bitmap? {
-//        return nvService.getImage(url)
-        return null
+    suspend fun getImage(url: String?) : Bitmap {
+        return nvService.getImage(url)
+        //return null
     }
 }

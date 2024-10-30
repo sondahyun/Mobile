@@ -1,6 +1,10 @@
 package ddum.com.mobile.week09.naverretrofitsample.data.network
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import ddum.com.mobile.week09.naverretrofitsample.R
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,11 +34,18 @@ class NVService(val context: Context) {
     }
 
     // Glide 를 사용하여 책 이미지를 가져와 Bitmap 으로 반환
-//    suspend fun getImage(url: String?, view: ImageView) : Bitmap {
-//
-//
-//
-//
-//    }
+    suspend fun getImage(url: String?) : Bitmap {
+        val futureTarget : FutureTarget<Bitmap> =
+            Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .submit()
+
+        val bitmap = futureTarget.get()
+        Glide.with(context).clear(futureTarget)
+
+        return bitmap
+
+    }
 
 }

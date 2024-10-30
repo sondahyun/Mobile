@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ddum.com.mobile.week09.naverretrofitsample.data.NVRepository
 import ddum.com.mobile.week09.naverretrofitsample.data.network.Book
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NVViewModel(val nvRepository: NVRepository) : ViewModel() {
 
@@ -25,12 +27,12 @@ class NVViewModel(val nvRepository: NVRepository) : ViewModel() {
     private val _drawable = MutableLiveData<Bitmap>()
     val drawable : LiveData<Bitmap> = _drawable
 
-    fun setImage(url: String?, view: ImageView) = viewModelScope.launch{
-//        var bitmap : Bitmap
-//        withContext(Dispatchers.IO) {
-//            bitmap = nvRepository.getImage(url)
-//        }
-//        _drawable.value = bitmap
+    fun setImage(url: String?) = viewModelScope.launch{
+        var bitmap : Bitmap
+        withContext(Dispatchers.IO) {
+            bitmap = nvRepository.getImage(url)
+        }
+        _drawable.value = bitmap
     }
 
 
