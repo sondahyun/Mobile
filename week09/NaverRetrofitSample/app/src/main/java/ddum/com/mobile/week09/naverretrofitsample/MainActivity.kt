@@ -73,9 +73,11 @@ class MainActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val url = adapter.books?.get(position)?.image
-
+                Log.d(TAG, url.toString())
                 // 실습1. url 에 해당하는 이미지 바로 표시
-
+                Glide.with(this@MainActivity) // Glide는 스레드 자동으로 사용
+                    .load(url)
+                    .into(binding.imageView)
 
                 // 실습2. ViewModel 을 통해 Bitmap 을 가져와 표시
 
