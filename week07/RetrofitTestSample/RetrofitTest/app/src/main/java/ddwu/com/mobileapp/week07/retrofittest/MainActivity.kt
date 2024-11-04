@@ -40,17 +40,11 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.btnMovie.setOnClickListener {
-            val key = "d9e6671f2f2be151c02a0aa766fc72cc"    // 자신의 키로 변경 strings.xml 에 저장할 것
+            val key = "1baa1732c1811bf8898d8f01b9d5acbd"    // 자신의 키로 변경 strings.xml 에 저장할 것
             val date = "20241007"
             refViewModel.getMovies( key, date )
         }
 
-
-        binding.btnMovie.setOnClickListener {
-
-
-//            binding.imageView.setImageBitmap()
-        }
 
 
 
