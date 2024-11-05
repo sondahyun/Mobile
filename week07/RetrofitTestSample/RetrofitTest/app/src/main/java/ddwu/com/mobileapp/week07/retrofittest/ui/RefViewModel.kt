@@ -38,9 +38,9 @@ class RefViewModel (val refRepository: RefRepository) : ViewModel() {
 
     fun getMovies(key: String, date: String) = viewModelScope.launch {
         var result: List<Movie>?
-        withContext(Dispatchers.IO) {       // retrofit 에 coroutine 적용 시 불필요
+        // withContext(Dispatchers.IO) {       // retrofit 에 coroutine 적용 시 불필요
             result = refRepository.getMovies(key, date)
-        }
+        // }
         _movies.value = result
     }
 

@@ -45,21 +45,21 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
-        nvViewModel.bitmap.observe(this) { bitmap ->
-            binding.imageView.setImageBitmap(bitmap)
-        }
+//        nvViewModel.bitmap.observe(this) { bitmap ->
+//            binding.imageView.setImageBitmap(bitmap)
+//        }
 
 
-        adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-                val url = adapter.books?.get(position)?.image
-                nvViewModel.setImage(url)
-            }
-        })
+//        adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
+//            override fun onItemClick(view: View, position: Int) {
+//                val url = adapter.books?.get(position)?.image
+//                nvViewModel.setImage(url)
+//            }
+//        })
 
         binding.btnSearch.setOnClickListener{
             val query = binding.etKeyword.text.toString()
-            val id = ""  // strings.xml에 자신이 등록한 Naver client ID 저장
+            val id = resources.getString(R.string.client_id)  // strings.xml에 자신이 등록한 Naver client ID 저장
             val secret = resources.getString(R.string.client_secret)    // strings.xml에 자신이 등록한 Naver client secret 저장
             nvViewModel.getBooks(query, id, secret)
         }

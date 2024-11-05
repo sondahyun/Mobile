@@ -10,7 +10,15 @@ import retrofit2.http.Query
 //  @Query:   query
 
 interface INaverBookSearch {
-
+    @GET("v1/search/blog.json")
+    suspend fun getBooks (
+        @Header("X-Naver-Client-Id")
+        clientID: String,
+        @Header("X-Naver-Client-Secret")
+        clientSecret: String,
+        @Query("query")
+        query: String
+    ) : BookRoot
 
 
 }

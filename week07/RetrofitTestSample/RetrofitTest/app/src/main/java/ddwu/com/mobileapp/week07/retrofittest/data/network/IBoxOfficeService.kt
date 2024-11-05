@@ -13,13 +13,13 @@ import retrofit2.http.Query
 interface IBoxOfficeService {
     // path를 알려줌
     @GET("kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.{type}")
-    fun getDailyBoxOffice(
+    suspend fun getDailyBoxOffice(
         // path상의 값을 바꾸고 싶을 때
         @Path("type") type: String,
         @Query("key") key: String,
         @Query("targetDt") targetDate: String
         // 네이버: @Header("ID")
-    ) : Call<Root>
+    ) : Root //: Call<Root>
 // DTO의 root가 튀어나옴
 // 비동기 방식으로 요청을 만듦
 

@@ -24,13 +24,13 @@ class NVViewModel(val nvRepository: NVRepository) : ViewModel() {
     private val _bitmap = MutableLiveData<Bitmap>()
     val bitmap : LiveData<Bitmap> = _bitmap
 
-    fun setImage(url: String?) = viewModelScope.launch{
-        var bitmap : Bitmap
-        withContext(Dispatchers.IO) {
-            bitmap = nvRepository.getImage(url)
-        }
-        _bitmap.value = bitmap
-    }
+//    fun setImage(url: String?) = viewModelScope.launch{
+//        var bitmap : Bitmap
+//        withContext(Dispatchers.IO) {
+//            bitmap = nvRepository.getImage(url)
+//        }
+//        _bitmap.value = bitmap
+//    }
 
 
 }

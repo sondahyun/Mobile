@@ -26,7 +26,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileReader
-import kotlin.coroutines.jvm.internal.CompletedContinuation.context
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
+        // drawable: bitmap 객체
+        // Glide를 이용해서 bitmap 객체를 가져와서
+        // bitmap 객체를 viewModel에 보관
         nvViewModel.drawable.observe(this) { drawable ->
             binding.imageView.setImageBitmap(drawable)
         }
@@ -93,22 +96,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 추가 방법
-        context.openFileInput("test.txt").bufferedReader().useLines{lines ->
-            for (line in lines) {
-                result.append(line+"\n")
-            }
-        }
+//        context.openFileInput("test.txt").bufferedReader().useLines{lines ->
+//            for (line in lines) {
+//                result.append(line+"\n")
+//            }
+//        }
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val url = adapter.books?.get(position)?.image
                 Log.d(TAG, url.toString())
                 // 실습1. url 에 해당하는 이미지 바로 표시
+                // network 작업도 하고 bitmap으로 변환하여 넣는 작업도 함
+                // Glide 내부에서 자동으로 별도의 스레드에서 처리함
 //                Glide.with(this@MainActivity) // Glide는 스레드 자동으로 사용
-//                    .load(url)
-//                    .into(binding.imageView)
+//                    .load(url) // 웹 주소
+//                    .into(binding.imageView) // 어느 뷰에 넣어줄지
 
-                // 실습2. ViewModel 을 통해 Bitmap 을 가져와 표시
-                nvViewModel.setImage(url) // viewModel 사용
+                // 실습2. ViewModel을 통해 Bitmap 을 가져와 표시
+//                nvViewModel.setImage(url) // viewModel 사용
 
 
                 // 실습3. 클릭할 경우 Image 의 url 을 Intent 에 저장(key: url) 후 DetailActivity 호출

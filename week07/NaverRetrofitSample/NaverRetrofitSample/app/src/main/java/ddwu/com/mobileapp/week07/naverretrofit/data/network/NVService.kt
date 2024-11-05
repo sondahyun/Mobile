@@ -16,22 +16,27 @@ class NVService(val context: Context) {
     private val service : INaverBookSearch
 
     init {
-        val retrofit =
+        // retrofit 객체 생성
+        val retrofit : Retrofit = Retrofit.Builder()
+            .baseUrl(context.resources.getString(R.string.url))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-
+        // retrofit 객체로 service 객체 (interface 객체) 생성
+        service = retrofit.create(INaverBookSearch::class.java)
     }
 
 
-    fun getBooks(query: String, clientID: String, clientSecret: String) : List<Book>? {
-
-        return null
+    suspend fun getBooks(query: String, clientID: String, clientSecret: String) : List<Book>? {
+        val bookRoot: BookRoot = service.getBooks(clientID, clientSecret, query)
+        return bookRoot.bookList // List<Book> 반환
     }
 
 
-    fun getImage(url: String?) : Bitmap? {
-
-
-        return null
-    }
+//    fun getImage(url: String?) : Bitmap? {
+//
+//
+//        return null
+//    }
 
 }
