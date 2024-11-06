@@ -75,32 +75,50 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Internal filesDir: ${filesDir}")
         Log.d(TAG, "Internal cacheDir: ${cacheDir}")
 
+        // 외부저장소
+        Log.d(TAG, "External filesDir: ${getExternalFilesDir(null).toString()}")
+        Log.d(TAG, "External cacheDir: ${externalCacheDir}")
+
+
+        // 파일 쓰기
         val writeData = "Mobile Application!"
 
-        //  기본 방법 - 전용 위치가 아닌 지정 위치 사용
+        // 기본 방법 - 전용 위치가 아닌 지정 위치 사용
         val writeFile = File(filesDir, "test.txt")
         val outputStream = FileOutputStream(writeFile)
         outputStream.write(writeData.toByteArray())
         outputStream.close()
 
-        val newFile = File(filesDir, "test.txt")
+//        // 추가방법 - 기본위치에 저장
+//        context.openFileOutput("text.txt", Context.MODE_PRIVATE).use {
+//            it.write(writeData.toByteArray())
+//        }
 
-        // 기본 방법
-        val result = StringBuffer()
 
-        val fileReader = FileReader(newFile)
-        BufferedReader(fileReader).useLines { lines ->
-            for (line in lines) {
-                result.append(line+"\n")
-            }
-        }
 
-        // 추가 방법
-//        context.openFileInput("test.txt").bufferedReader().useLines{lines ->
+         // 파일 읽기
+         // 기본 방법 - 전용 위치가 아닌 지정 위치 사용
+//        val newFile = File(filesDir, "test.txt")
+//
+//
+//        val result = StringBuffer()
+//
+//        val fileReader = FileReader(newFile)
+//        BufferedReader(fileReader).useLines { lines ->
 //            for (line in lines) {
 //                result.append(line+"\n")
 //            }
 //        }
+
+        // 추가 방법 - 앱에 지정되어 있는 전용 위치를 사용
+        openFileInput("test.txt").bufferedReader().useLines { lines ->
+            for (line in lines) {
+                Log.d(TAG, line + "\n")
+            }
+        }
+
+
+
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val url = adapter.books?.get(position)?.image
@@ -112,8 +130,10 @@ class MainActivity : AppCompatActivity() {
 //                    .load(url) // 웹 주소
 //                    .into(binding.imageView) // 어느 뷰에 넣어줄지
 
+
+
                 // 실습2. ViewModel을 통해 Bitmap 을 가져와 표시
-//                nvViewModel.setImage(url) // viewModel 사용
+                nvViewModel.setImage(url) // viewModel 사용
 
 
                 // 실습3. 클릭할 경우 Image 의 url 을 Intent 에 저장(key: url) 후 DetailActivity 호출
