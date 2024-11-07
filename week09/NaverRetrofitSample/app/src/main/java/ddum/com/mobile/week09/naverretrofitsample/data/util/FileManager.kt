@@ -30,11 +30,13 @@ class FileManager(val context: Context) {
             return SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         }
 
+        // code에서 directory 생성
         // baseDirectory 하위에 subDirectory 가 없을 경우 생성
         fun createSubDirectory(baseDirectory: File, subDirectory: String) : Boolean {
             val directory = File(baseDirectory, subDirectory)
             if (!directory.exists()) {
-                directory.mkdir()
+                // mkdirs()를 사용하면 하위 디렉토리까지 만들어짐 (mkdir()은 하나만 만들어짐)
+                directory.mkdir() // 파일 생성 (baseDirectory안에 subDirectory가 만들어짐)
                 return true
             }
             return false

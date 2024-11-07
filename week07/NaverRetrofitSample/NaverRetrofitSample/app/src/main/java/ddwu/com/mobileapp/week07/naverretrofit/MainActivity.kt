@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 //        adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
 //            override fun onItemClick(view: View, position: Int) {
 //                val url = adapter.books?.get(position)?.image
+//
 //                nvViewModel.setImage(url)
 //            }
 //        })

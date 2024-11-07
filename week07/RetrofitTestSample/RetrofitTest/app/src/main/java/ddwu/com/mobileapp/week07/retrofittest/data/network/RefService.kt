@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RefService(val context: Context) {
     val TAG = "RefService"
-    val movieService: IBoxOfficeService
+    val movieService: IBoxOfficeService // IBoxOfficeService의 객체
 
     init {
         val retrofit : Retrofit = Retrofit.Builder()
@@ -24,14 +24,14 @@ class RefService(val context: Context) {
         movieService = retrofit.create(IBoxOfficeService::class.java)
     }
 
-    suspend fun getMovies(key: String, date: String)  : List<Movie>?   {
-//        // 응답이 날아왔을 때 호출 (결과 받음)
+    suspend fun getMovies(key: String, date: String)  : List<Movie>   {
+//        // 응답이 날아왔을 때 호출 (결과 받음), Call 타입으로 반환 날아오면 CallBack 호출
 //        val movieCallback = object : Callback<Root> { // 객체
 //            // 서버로부터 응답 제대로 날아옴 (성공)
-//            override fun onResponse(call: Call<Root>, response: Response<Root>) { // 결과: Response<Root>
+//            override fun onResponse(call: Call<Root>, response: Response<Root>) { // Call을 요청할때 사용, 결과: Response<Root>
 //                if (response.isSuccessful) {
 //                    val boxOfficeRoot = response.body() // body(): Root 값
-//                    val movies = boxOfficeRoot?.movieResult?.movieList
+//                    val movies = boxOfficeRoot?.movieResult?.movieList // List<Movie> 튀어나옴
 //                    movies?.forEach { movie ->
 //                        Log.d(TAG, movie.toString())
 //                    }
@@ -42,11 +42,12 @@ class RefService(val context: Context) {
 //                Log.d(TAG, t.stackTraceToString())
 //            }
 //        }
+//        // 호출할 수 있는 service 만듦
+//        val movieCall : Call<Root> = movieService.getDailyBoxOffice("json", key, date) /* IBoxOfficeService 의 함수 호출 */
 //
-//        val movieCall : Call<Root> = movieService.getDailyBoxOffice("json", key, date)/* IBoxOfficeService 의 함수 호출 */
-//
-//        // 비동기: enqueue
-//        movieCall.enqueue(movieCallback)    // val response = movieCall.execute()
+//        // 비동기: enqueue (언젠가 Call<Root> 날아오면 movieCallback 실행)
+//        movieCall.enqueue(movieCallback)
+          //val response = movieCall.execute() // 동기
 
 
         // coroutine (Retrofit에서 Coroutine 자체 지원)

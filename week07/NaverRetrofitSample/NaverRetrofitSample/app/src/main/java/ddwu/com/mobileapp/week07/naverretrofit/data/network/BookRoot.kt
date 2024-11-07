@@ -12,7 +12,7 @@ data class BookRoot(
 // Book dto (item 저장)
 data class Book(
     val title: String,
-    val image: String,
+    val image: String, // 이미지의 인터넷 주소를 가져옴 (네트워크에 변환 요청, 이미지 가져와야 함) (inputstream -> bitmap)
     val author: String,
     val publisher: String,
 )
