@@ -85,9 +85,9 @@ class MainActivity : AppCompatActivity() {
         val writeData = "Mobile Application!"
 
         // 기본 방법 - 전용 위치가 아닌 지정 위치 사용
-        val writeFile = File(filesDir, "test.txt") // file 객체 생성
+        val writeFile = File(filesDir, "test.txt") // file 정보 객체 생성
         val outputStream = FileOutputStream(writeFile)
-        outputStream.write(writeData.toByteArray())
+        outputStream.write(writeData.toByteArray()) // writeData를 작성
         outputStream.close()
 
 //        // 추가방법 - 기본위치에 저장 (filesDir) // 무조건 files 아래에 저장
@@ -116,6 +116,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, line + "\n")
             }
         }
+
+
 
 
 //        // 이미지 파일 Bitmap으로 읽어오기
@@ -161,14 +163,14 @@ class MainActivity : AppCompatActivity() {
                 // image를 url에서 가져와서 저장
                 Glide.with(this@MainActivity)
                     .asBitmap()
-                    .load(url)
+                    .load(url) // 1. 주소를 읽어와서
                     .into ( object : CustomTarget<Bitmap> (3350, 350) { //pixel (or Target,SIZE_ORIGINAL)
                         // 잘 읽어 왔을 때 (저장)
                         override fun onResourceReady(
-                            resource: Bitmap, // url이 Bitmap객체로 만들어짐
+                            resource: Bitmap, // 2. url이 Bitmap객체로 만들어짐
                             transition: Transition<in Bitmap>?
                         ) {
-                            // resourse를 파일로 저장
+                            // 3. resourse(Bitmap 객체)를 파일로 저장 (앞의 예제와 같음)
                             val imageFile = File("${filesDir}/images", "image.jpg")
                             val fos = FileOutputStream(imageFile)
                             resource.compress(Bitmap.CompressFormat.JPEG, 100, fos)
@@ -176,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         // 못 읽어 왔을 때 (끝냄)
                         override fun onLoadCleared(placeholder: Drawable?) {
-                            TODO("Not yet implemented")
+                            Log.d(TAG, "Image Load Cleared!")
                         }
                     }
                     )
