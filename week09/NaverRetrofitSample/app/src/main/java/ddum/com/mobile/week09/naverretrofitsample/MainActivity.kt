@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                 Glide.with(this@MainActivity)
                     .asBitmap()
                     .load(url) // 1. 주소를 읽어와서
-                    .into ( object : CustomTarget<Bitmap> (3350, 350) { //pixel (or Target,SIZE_ORIGINAL)
+                    .into ( object : CustomTarget<Bitmap> (350, 350) { //pixel (or Target,SIZE_ORIGINAL)
                         // 잘 읽어 왔을 때 (저장)
                         override fun onResourceReady(
                             resource: Bitmap, // 2. url이 Bitmap객체로 만들어짐

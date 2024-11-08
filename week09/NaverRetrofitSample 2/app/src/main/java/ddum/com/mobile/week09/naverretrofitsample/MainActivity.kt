@@ -1,6 +1,7 @@
 package ddum.com.mobile.week09.naverretrofitsample
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -70,6 +71,13 @@ class MainActivity : AppCompatActivity() {
         // 내부저장소 전용위치에 images 하위 디렉토리 생성
 
 
+
+        // 하위 폴더 만들기 (T/F 반환)
+        FileManager.createSubDirectory( filesDir, "images" )
+
+
+
+
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val url = adapter.books?.get(position)?.image
@@ -81,6 +89,9 @@ class MainActivity : AppCompatActivity() {
 
 
                 // 실습3. 클릭할 경우 Image 의 url 을 Intent 에 저장(key: url) 후 DetailActivity 호출
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("url", url)
+                startActivity(intent)
 
             }
         })
