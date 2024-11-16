@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 등록해야 Receiver 작동 -->
         <receiver android:name=".MyBroadcastReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="ddwu.com.mobile.week10.alarmtest.ACTION_ALARM" />
