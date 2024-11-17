@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             val pendingIntent =
                 PendingIntent.getBroadcast(applicationContext, requestId, intent, PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE)
 
+            // 한번만 알람 울림
             manager.set(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + 20 * 1000, // 10초 뒤에 울림
