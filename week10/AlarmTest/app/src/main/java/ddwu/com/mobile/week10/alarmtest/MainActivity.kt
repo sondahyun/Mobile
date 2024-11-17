@@ -33,19 +33,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainBinding.root)
 
         mainBinding.btnOneShot.setOnClickListener {
+            checkNotificationPermission()
+
             val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            var intent = Intent(this, MyBroadcastReceiver::class.java)
+            val intent = Intent(this, MyBroadcastReceiver::class.java).apply {
+                action = "ddwu.com.mobile.week10.alarmtest.ACTION_ALARM"
+                putExtra("Noti_ID", 200)
+            }
 
             val requestId = 100 // 삭제할 때 사용
 
             val pendingIntent =
-                PendingIntent.getBroadcast(applicationContext, requestId, intent, PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.getBroadcast(applicationContext, requestId, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
 
             // 한번만 알람 울림
             manager.set(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 20 * 1000, // 10초 뒤에 울림
+                SystemClock.elapsedRealtime() + 10 * 1000, // 10초 뒤에 울림
                 pendingIntent
             )
         }
