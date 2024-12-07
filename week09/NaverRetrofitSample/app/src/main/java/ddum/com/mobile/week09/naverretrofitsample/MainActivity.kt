@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         // 필요할 경우 파일 디렉토리 생성
         // 내부저장소 전용위치에 images 하위 디렉토리 생성
         Log.d(TAG, "Internal filesDir: ${filesDir}") // 파일에 바로 접근 가능: filesDir
-        Log.d(TAG, "Internal cacheDir: ${cacheDir}") // 캐시파일에 바로 접근 가능: cacheDir
+        Log.d(TAG, "Internal cacheDir: ${cacheDir}") // 캐시파일에 바로 접근 가능: cacheDir (임시 저장)
 
         // 외부저장소
         Log.d(TAG, "External filesDir: ${getExternalFilesDir(null).toString()}")
@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 //        val newFile = File(filesDir, "test.txt")
 //
 //        // 기본 방법 - 전용 위치가 아닌 지정 위치 사용
+          // String 저장 변수
 //        val result = StringBuffer()
 //
 //        val fileReader = FileReader(newFile)
@@ -133,13 +134,15 @@ class MainActivity : AppCompatActivity() {
 ////        fos.close()
 
 
+          // Glide 이용해서 이미지 읽음
 //        Glide.with(this)
 //            .load("${filesDir}/images/image.jpg")
 //            .into(binding.imageView)
 //
 //
 
-        // 하위 폴더 만들기 (T/F 반환)
+
+        // 하위 폴더 만들기 (T/F 반환) // images 폴더 만듦
         FileManager.createSubDirectory( filesDir, "images" )
 
 
@@ -150,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, url.toString())
                 // 실습1. url 에 해당하는 이미지 바로 표시
                 // network 작업도 하고 bitmap으로 변환하여 넣는 작업도 함
-                // Glide 내부에서 자동으로 별도의 스레드에서 처리함 (스레드 자동)
+                // Glide 내부에서 자동으로 메인 스레드가 아닌 별도의 스레드에서 처리함 (스레드 자동) (withContext 사용 안해도 됨)
 //                Glide.with(this@MainActivity) // 문맥 정보
 //                    .load(url) // 웹 주소 (파일 주소 - 이미지 정보) // 네트워크 작업
 //                    .into(binding.imageView) // 어느 뷰에 넣어줄지 // bitmap 변환 작업
@@ -160,10 +163,11 @@ class MainActivity : AppCompatActivity() {
                 // 실습2. ViewModel을 통해 Bitmap 을 가져와 표시
                 nvViewModel.setImage(url) // viewModel 사용
 
+                // Glide 이용해서 이미지 읽기, 저장
                 // image를 url에서 가져와서 저장
                 Glide.with(this@MainActivity)
                     .asBitmap()
-                    .load(url) // 1. 주소를 읽어와서
+                    .load(url) // 1. url 주소를 읽어와서
                     .into ( object : CustomTarget<Bitmap> (350, 350) { //pixel (or Target,SIZE_ORIGINAL)
                         // 잘 읽어 왔을 때 (저장)
                         override fun onResourceReady(

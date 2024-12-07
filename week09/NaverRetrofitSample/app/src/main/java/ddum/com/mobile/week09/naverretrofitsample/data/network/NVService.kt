@@ -33,7 +33,7 @@ class NVService(val context: Context) {
         return bookRoot.items
     }
 
-    // Glide를 사용하여 책 이미지를 가져와 Bitmap 으로 반환
+    // Glide를 사용하여 책 이미지를 가져와 Bitmap 으로 반환 (바로 view에 넣어주지 않음)
     // Glide는 bitmap 객체만 가져옴 -> 최종적으로 viewModel에 저장 (activity 상관없이 유지)
     suspend fun getImage(url: String?) : Bitmap {
         // Bitmap 객체를 담음 (futureTarget: Glide에서 제공하는 class)

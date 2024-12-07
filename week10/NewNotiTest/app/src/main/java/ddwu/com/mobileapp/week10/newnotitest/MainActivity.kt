@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    // 방송국 번호
     val channelID by lazy {
         resources.getString(R.string.channel_id)
     }
@@ -37,13 +38,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(mainBinding.root)
 
-        // 앱이 실행되자마자 채널 생성 (T or F)
+        // 앱이 실행 되자 마자 채널 생성 (T or F)
         createNotificationChannel()
 
         mainBinding.btnNoti.setOnClickListener {
             Thread {
                 // 3초 대기
                 sleep(3000)
+                // 알림 생성
                 showNotification()
             }.start()
         }
@@ -51,13 +53,15 @@ class MainActivity : AppCompatActivity() {
         mainBinding.btnNotiAction.setOnClickListener {
             Thread {
                 sleep(3000)
+                // 알림 생성
                 showNotificationWithAction()
             }.start()
         }
 
     }
 
-    // 채널 생성 (앱이 실행될때)
+    // 채널 생성 (앱이 실행될 때)
+    // chanel 생성 (API level 26 이상 에서 사용)
     private fun createNotificationChannel() {
         // 최소 버전 (O = 오레오 버전)보다 크면 channel 만듦
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -65,16 +69,17 @@ class MainActivity : AppCompatActivity() {
 
             val name = "Test Channel"
             val descriptionText = "Test Channel Message"
-            // 알림의 우선 순위
+            // 알림의 우선 순위 (알림의 중요도)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             // channel 생성
             val mChannel = NotificationChannel(channelID, name, importance)
+
             mChannel.description = descriptionText // description 삽입
 
-            // Channel 을 시스템에 등록, 등록 후에는 중요도 변경 불가
+            // Channel 을 시스템(manager)에 등록, 등록 후에는 중요도 변경 불가
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
-            // 시스템에게 channel이 사용 가능한지 확인 (T or F)
+            notificationManager.createNotificationChannel(mChannel) // 채널 생성
+            // 시스템 에게 channel 이 사용 가능한 지 확인 (T or F)
             Toast.makeText(applicationContext, "${notificationManager.areNotificationsEnabled()}", Toast.LENGTH_SHORT).show()
 
 //            notificationManager.deleteNotificationChannel(channelID)    // 채널 삭제
@@ -82,16 +87,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // 알림 생성
+    // 알림 생성 (builder 사용)
     private fun showNotification() {
         checkNotificationPermission()
-        // activity에서 activity 띄움 (알림 누르면 AlertActivity 띄움)
+
+        // activity 에서 activity 띄움 (알림 누르면 AlertActivity 띄움)
         val intent = Intent(this, AlertActivity::class.java).apply {
-            // 이전 알림 삭제하고 새로 띄우기
+            // 이전 알림 삭제 하고 새로 띄우기
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
-        // intent를 pendingIntent로 포장해서 시스템에 전달
+        // intent 를 pendingIntent 로 포장 해서 시스템 에 전달
         // Activity 포장 -> getActivity
         // BroadCast 포장 -> getBroadcast, System 포장 -> getSystem, requestCode -> pendingIntent 구분 용도
         // 변경 불가능
@@ -100,6 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         // Builder 객체
         val newNoti = NotificationCompat.Builder(this, channelID)
+            // 필수 요소 (밑 부분 나머지는 선택)
             .setSmallIcon(R.drawable.ic_stat_name) // Image Asset
             .setContentTitle("알림 제목")
             .setContentText("짧은 알림 내용")
