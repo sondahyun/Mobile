@@ -19,11 +19,13 @@ class RefService(val context: Context) {
             .addConverterFactory(GsonConverterFactory.create()) // 가져온 json을 DTO로 parsing -> converter 이용해서 변환 -> gson 이용
             .build()
 
-        // interface 구현 : IBoxOfficeService 객체 생성
+        // retrofit에 interface 구현 시킴 : IBoxOfficeService 객체 생성
+        // IBoxOfficeService 내의 함수 사용 가능
         // Call<Root> 반환
         movieService = retrofit.create(IBoxOfficeService::class.java)
     }
 
+    // suspend는 suspend안에서만 실행 가능함
     suspend fun getMovies(key: String, date: String)  : List<Movie>   {
 //        // 응답이 날아왔을 때 호출 (결과 받음), Call 타입으로 반환 날아오면 CallBack 호출
 //        val movieCallback = object : Callback<Root> { // 객체
@@ -51,6 +53,7 @@ class RefService(val context: Context) {
 
 
         // coroutine (Retrofit에서 Coroutine 자체 지원)
+        // suspend 함수 호출
         val root : Root = movieService.getDailyBoxOffice("json", key, date)
         return root.movieResult.movieList
 

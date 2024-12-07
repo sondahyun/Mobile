@@ -28,10 +28,10 @@ class NetworkUtil(val context: Context) {
         var conn : HttpURLConnection? = null
 
         try {
-            // reponse 받음
+            // reponse 받음 (Connection 객체 받음)
             conn = getConnection("GET", address, null)
             // 응답이 inputStream으로 들어있음
-            resultStream = conn?.inputStream // 응답 결과 스트림 확인
+            resultStream = conn?.inputStream // 응답 결과 스트림 확인 // 네트워크 통해 inputStream 받음 (0101101)
             // 응답 가공 (0101을 문자열로)
             receivedContents = streamUtil.readStreamToString (resultStream)
             // stream 처리 함수를 구현한 후 사용
@@ -42,7 +42,7 @@ class NetworkUtil(val context: Context) {
             if (conn != null) conn.disconnect()
         }
 
-        return receivedContents
+        return receivedContents // 화면에 표시할 정보
     }
 
 
@@ -55,7 +55,7 @@ class NetworkUtil(val context: Context) {
         try {
             // getConnection() 을 사용하여 connection 요청 후 inputStream 을 가져와 Bitmap 으로 변환
             conn = getConnection("GET", address, null)
-            resultStream = conn?.inputStream
+            resultStream = conn?.inputStream // 네트워크 통해 inputStream 받음 (0101101)
             receivedBitmap = streamUtil.readStreamToImage(resultStream)
             // 변환한 Bitmap 을 receivedBitmap 에 저장
         } catch (e : Exception) {
@@ -97,26 +97,29 @@ class NetworkUtil(val context: Context) {
     @Throws(IOException::class, SocketTimeoutException::class)
     private fun getConnection(requestMethod: String, address: String, data: String?) : HttpsURLConnection? {
         val url = URL(address) // 주소를 url 객체로 만듦
+
         // URLConnection abtract 클래스 이용
         var conn = url.openConnection() as HttpsURLConnection
 
-        conn.readTimeout = 5000                                 // 읽기 타임아웃 지정 - SocketTimeoutException
+        conn.readTimeout = 5000     // 읽기 타임아웃 지정 - SocketTimeoutException
         conn.connectTimeout = 5000  // 연결 타임아웃 지정 - SocketTimeoutException
-        // 서버의 응답을 받겠다
-        conn.doInput = true                                     // 서버 응답 지정 – default
-        conn.requestMethod = requestMethod                      // 연결 방식 지정 - or POST
 
-        if (requestMethod.equals("POST")) {
+        // 서버의 응답을 받겠다
+        conn.doInput = true         // 서버 응답 지정 – default
+        conn.requestMethod = requestMethod // 연결 방식 지정 - or POST
+
+        if (requestMethod.equals("POST")) { // 서버로 보낼 값 (String -> Stream)
             // doOutput: 서버에 데이터를 보냄
             conn.doOutput = true
 
-            // 필요한 정보들을 웹페이지 form처럼 삽입 (key value 쌍)
+            // 필요한 정보들을 웹페이지 form처럼 삽입 (key value 쌍), 헤더 정보
             conn.setRequestProperty("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
-            // Key Value 형태로 만듦
+            // Key Value 형태로 만듦 (입력해야할 정보)
             val params = "subject=" + data
             // val param2 = "title=" + data
 
             // outStream 이용해서 작성 (InputStreamReader와 반대)
+            // connection에서 outputStream 얻어옴 (connection 이용해서 데이터 서버로 보냄: POST)
             // 코드를 0101로 변경 (String->Stream)
             val outStreamWriter : OutputStreamWriter = OutputStreamWriter(conn.outputStream, "UTF-8")
             // 성능 개선을 위해서 buffer로 가져옴

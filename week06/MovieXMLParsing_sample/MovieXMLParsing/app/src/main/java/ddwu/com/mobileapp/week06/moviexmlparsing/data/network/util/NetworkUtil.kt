@@ -96,7 +96,7 @@ class NetworkUtil(val context: Context) {
             connect()
 
             if (responseCode != HttpURLConnection.HTTP_OK) {        // 서버 전송 및 응답 결과 수신
-                throw IOException("Http Error Code: $responseCode")
+                throw IOException("Http  Error Code: $responseCode")
             }
         }?.inputStream // 반환값 (inputStream)
 

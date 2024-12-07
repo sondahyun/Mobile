@@ -28,15 +28,17 @@ class MovieParser {
     fun parse(inputStream: InputStream?) : List<Movie> {
         // InputStream을 Text로 변환하지 않고 바로 parse에 삽입
 
-        // use: kotlin의 범위 함수 (자동 close)
+        // use: kotlin의 범위 함수 (inputStream 사용 후 자동 close)
         inputStream.use { inputStream ->
             // XmlPullParser 객체 생성
             val parser : XmlPullParser = Xml.newPullParser()
 
             /*Parser 의 동작 정의, next() 호출 전 반드시 호출 필요*/
+            // setFeature 사용
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
 
             /* Paring 대상이 되는 inputStream 설정 */
+            // inputStream 삽입
             parser.setInput(inputStream, null)
 
             /*Parsing 대상 태그의 상위 태그까지 이동*/
@@ -50,6 +52,7 @@ class MovieParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readBoxOffice(parser: XmlPullParser) : List<Movie> {
+        // 값이 변할 수 있는 mutableList 생성
         val movies = mutableListOf<Movie>()
 
         // UPPER_TAG가 맞는지 확인
@@ -60,7 +63,7 @@ class MovieParser {
             }
             if (parser.name == ITEM_TAG) {
                 // DTO 저장
-                movies.add( readDailyBoxOffice(parser) ) // 내부 읽음 -> 목록에 추가
+                movies.add( readDailyBoxOffice(parser) ) // 내부 읽음 -> 목록에 추가 (DTO 한개)
             } else {
                 skip(parser)
             }
@@ -81,13 +84,14 @@ class MovieParser {
         var openData: String? = null
 
         while (parser.next() != XmlPullParser.END_TAG) {
+            // TAG 확인
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
             when (parser.name) {
 
                 /*TAG 명에 따라 변수에 TEXT 저장*/
-                RANK_TAG -> rank = readTextInTag(parser, RANK_TAG).toInt()
+                RANK_TAG -> rank = readTextInTag(parser, RANK_TAG).toInt() // TAG 값 읽음
                 TITLE_TAG -> title = readTextInTag(parser, TITLE_TAG)
                 OPEN_DATE_TAG -> openData = readTextInTag(parser, OPEN_DATE_TAG)
 

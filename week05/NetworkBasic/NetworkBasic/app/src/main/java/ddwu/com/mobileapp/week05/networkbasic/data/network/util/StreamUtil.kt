@@ -14,7 +14,7 @@ class StreamUtil {
         val resultBuilder = StringBuilder()
 
         // InputStreamReader로 집어넣음
-        // Stream -> text로 바꿈 : Reader
+        // Stream -> text(String)로 바꿈 : Reader
         val inputStreamReader = InputStreamReader(iStream)
         // 버퍼에 집어넣음 (한번에 여러개)
         val bufferedReader = BufferedReader(inputStreamReader)
@@ -24,7 +24,7 @@ class StreamUtil {
         // 문자열로 만듦
         while (readLine != null) {
             // System.LineSeparator: \n
-            resultBuilder.append(readLine + System.lineSeparator())
+            resultBuilder.append(readLine + System.lineSeparator()) // 한줄씩 추가
             readLine = bufferedReader.readLine()
         }
 
