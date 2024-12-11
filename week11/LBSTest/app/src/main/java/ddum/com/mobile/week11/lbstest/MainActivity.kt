@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainBinding.btnGeocoding.setOnClickListener {
+            // 같은 건물이면 주소 여러개일 수 있음 (maxResult) (addresses = List<Address>
             geocoder.getFromLocation(37.6068163, 127.04238319999999, 5) { addresses ->
                 // 이미 받아온거라 CoroutineScope 생략 가능
                 CoroutineScope(Dispatchers.Main).launch {
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             geocoder.getFromLocationName("동덕여자대학교", 5) { addresses ->
+                // 이미 받아온거라 CoroutineScope 생략 가능
                 CoroutineScope(Dispatchers.Main).launch {
                     Log.d(TAG, "위도: ${addresses.get(0).latitude}, " +
                     "경도: ${addresses.get(0).longitude}")
