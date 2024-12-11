@@ -93,18 +93,19 @@ class MainActivity : AppCompatActivity() {
 
         // activity 에서 activity 띄움 (알림 누르면 AlertActivity 띄움)
         val intent = Intent(this, AlertActivity::class.java).apply {
-            // 이전 알림 삭제 하고 새로 띄우기
+            // 이전 알림 삭제 하고, 새로 띄우기
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
         // intent 를 pendingIntent 로 포장 해서 시스템 에 전달
         // Activity 포장 -> getActivity
         // BroadCast 포장 -> getBroadcast, System 포장 -> getSystem, requestCode -> pendingIntent 구분 용도
-        // 변경 불가능
+        // PendingIntent 는 변경 불가능
+        // requestCode: 식별 정보
         val pendingIntent: PendingIntent
                 = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-        // Builder 객체
+        // Builder 객체 (Noti 만들 준비)
         val newNoti = NotificationCompat.Builder(this, channelID)
             // 필수 요소 (밑 부분 나머지는 선택)
             .setSmallIcon(R.drawable.ic_stat_name) // Image Asset
@@ -116,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent) // 시스템에 전달할 Intent
             .setAutoCancel(true) // 클릭하면 바로 닫힘
+
 
         // notiManager
         val notiManager = NotificationManagerCompat.from(this)
@@ -130,7 +132,7 @@ class MainActivity : AppCompatActivity() {
 
         // activity에서 br 띄움 (알림 누르면 AlertActivity 띄움)
         val intent = Intent(this, AlertBroadcastReceiver::class.java).apply {
-            action = "ACTION_SNOOZE" // br의 종류 (방송 정보)
+            action = "ACTION_SNOOZE" // br의 종류 (방송 정보, 구분 위한)
             putExtra("NOTI_ID", 200) // 전달하는 값 (방송 내용)
         }
 
@@ -152,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent) // 시스템에 전달할 Intent
             .setAutoCancel(true) // 클릭하면 바로 닫힘
-            // 알림 메시지에 버튼을 만듦
+            // 알림 메시지에 버튼을 만듦 = addAction
             .addAction(R.drawable.ic_stat_name, "쉬기", pendingIntent)
 
         // notiManager

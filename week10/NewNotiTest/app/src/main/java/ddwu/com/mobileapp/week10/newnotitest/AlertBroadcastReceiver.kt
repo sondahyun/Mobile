@@ -11,7 +11,7 @@ class AlertBroadcastReceiver : BroadcastReceiver() {
 
         Toast.makeText(context, "휴식중...", Toast.LENGTH_LONG ).show()
 
-        val notiId = intent?.getIntExtra("NOTI_ID", 0)      // intent 에 기록한 값 확인
+        val notiId = intent?.getIntExtra("NOTI_ID", 0)      // intent 에 putExtra로 기록한 값 확인
         Log.d("AlertBroadcastReceiver", "Notification ID: ${notiId}")
 
 //        /*알림을 선택하면 MainActivity 실행*/
